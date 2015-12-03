@@ -10,6 +10,7 @@ namespace Galaxy.Core.Environment
 {
     public abstract class BaseLevel : ILevelInfo
     {
+
         #region Constant
 
         public const int DefaultHeight = 480;
@@ -75,7 +76,6 @@ namespace Galaxy.Core.Environment
 
         public virtual void Update()
         {
-
             BaseActor[] _actors = new BaseActor[Actors.Count];
             Actors.CopyTo(_actors);
             foreach (BaseActor baseActor in _actors)
@@ -118,7 +118,10 @@ namespace Galaxy.Core.Environment
             return Size;
         }
 
+
         protected BaseActor Player { get; set; }
+
+        protected BaseActor Lightning { get; set; }
 
         #endregion
     }

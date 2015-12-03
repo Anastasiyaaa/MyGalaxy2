@@ -9,11 +9,11 @@ using Galaxy.Core.Environment;
 
 namespace Galaxy.Environments.Actors
 {
-    class EnemyBullet : BaseActor
+    public class EnemyBullet : BaseActor
     {
         #region Constant
 
-        private const int Speed = 10;
+        private const int Speed = 5;
 
         #endregion
 
@@ -30,6 +30,7 @@ namespace Galaxy.Environments.Actors
         #endregion
 
         #region Overrides
+
 
         public override void Load()
         {

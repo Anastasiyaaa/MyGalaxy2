@@ -15,7 +15,7 @@ namespace Galaxy.Environments.Actors
     public class Ship : DethAnimationActor
     {
         #region Constant
-
+        
         private const int MaxSpeed = 3;
         private const long StartFlyMs = 2000;
 
@@ -57,6 +57,7 @@ namespace Galaxy.Environments.Actors
                 m_flyTimer.Stop();
                 m_flyTimer = null;
                 h_changePosition();
+                
                 m_flying = true;
             }
             else
@@ -84,9 +85,11 @@ namespace Galaxy.Environments.Actors
             }
         }
 
+
         #endregion
 
         #region Private methods
+
 
         private void h_changePosition()
         {
