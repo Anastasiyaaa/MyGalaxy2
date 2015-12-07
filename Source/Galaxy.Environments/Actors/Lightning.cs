@@ -12,11 +12,12 @@ using Size = System.Drawing.Size;
 
 namespace Galaxy.Environments.Actors
 {
-    class Lightning: DethAnimationActor
+    class Lightning: BaseActor
     {
         #region Private fields
 
         private bool flag;
+        private bool m_isAlive;
         private int direction;
         private int changeX;
         private int changeY;
@@ -35,6 +36,16 @@ namespace Galaxy.Environments.Actors
 
         #endregion
 
+        public override bool IsAlive
+        {
+            get   { return m_isAlive; }
+            set
+            {
+                m_isAlive = true;
+
+                CanDrop = false;
+            }
+        }
 
         #region Overrides
 
@@ -51,21 +62,23 @@ namespace Galaxy.Environments.Actors
         public override void Load()
         {
             Load(@"Assets\Lightning.png");
-            FirstDirection();
+            firstDirection();
         }
 
         #endregion
 
         #region Private methods
 
-        private void FirstDirection()
+        private void firstDirection()
         {
-            Random rnd=new Random();
-            direction = rnd.Next(1, 4);
+            Random rnd = new Random();
+            direction = rnd.Next(1, 5);
             flag = direction > 2;
         }
         private void h_changePosition()
         {
+            Size levelSize = Info.GetLevelSize();
+
             if (direction == 1)
             {
                 changeX = -3;
@@ -93,7 +106,7 @@ namespace Galaxy.Environments.Actors
 
             if (flag)
             {
-                if (Position.X > 587 || Position.Y > 410)
+                if (Position.X > levelSize.Width - 53 || Position.Y > levelSize.Height - 70)
                 {
                     changeX = -3;
                     changeY = -3;
@@ -111,14 +124,14 @@ namespace Galaxy.Environments.Actors
             }
             else
             {
-                if (Position.X < 3 || Position.Y > 410)
+                if (Position.X < 3 || Position.Y > levelSize.Height - 70)
                 {
                     changeX = 3;
                     changeY = -3;
                     direction = 4;
                     flag = true;
                 }
-                if (Position.X > 587 || Position.Y < 3)
+                if (Position.X > levelSize.Width - 53 || Position.Y < 3)
                 {
                     changeX = -3;
                     changeY = 3;

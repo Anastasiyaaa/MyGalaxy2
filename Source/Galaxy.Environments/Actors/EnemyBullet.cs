@@ -17,6 +17,8 @@ namespace Galaxy.Environments.Actors
 
         #endregion
 
+        private bool m_isAlive;
+
         #region Constructors
 
         public EnemyBullet(ILevelInfo info)
@@ -31,7 +33,15 @@ namespace Galaxy.Environments.Actors
 
         #region Overrides
 
-
+        public override bool IsAlive
+        {
+            get { return m_isAlive; }
+            set
+            {
+                m_isAlive = !value;
+                CanDrop = value;
+            }
+        }
         public override void Load()
         {
             Load(@"Assets\bullet.png");
@@ -39,7 +49,10 @@ namespace Galaxy.Environments.Actors
 
         public override void Update()
         {
+            Size levelSize = Info.GetLevelSize();
+
             Position = new Point(Position.X, Position.Y + Speed);
+            IsAlive = Position.Y > levelSize.Height;
         }
 
         #endregion

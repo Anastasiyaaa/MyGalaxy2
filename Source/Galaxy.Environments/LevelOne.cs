@@ -61,7 +61,7 @@ namespace Galaxy.Environments
               }
 
               //Lightning
-              Lightning = new Lightning(this);
+              var Lightning = new Lightning(this);
               int lightningPositionX = Size.Width / 2 - Lightning.Width / 2;
               int lightningPositionY = Size.Height/2 - Lightning.Height/2;
 
@@ -115,18 +115,6 @@ namespace Galaxy.Environments
             
         }
 
-      private void RemoveBullet()
-      {
-          EnemyBullet[] arrayEnemyBullets = Actors.Where(actor => actor is EnemyBullet).Cast<EnemyBullet>().ToArray();
-
-          foreach (var enemyBullet in arrayEnemyBullets)
-          {
-              if (enemyBullet.Position.Y > 480 || enemyBullet.Position.Y < 0)
-              {
-                  Actors.Remove(enemyBullet);
-              }
-          }
-      }
         protected void InitTimer()
         {
             if (m_flyTimer == null)
@@ -138,42 +126,40 @@ namespace Galaxy.Environments
 
         public override void Update()
         {
-          m_frameCount++;
-          h_dispatchKey();
+              m_frameCount++;
+              h_dispatchKey();
 
-          base.Update();
+              base.Update();
 
-          if (m_flyTimer.ElapsedMilliseconds >= 500)
-          {
-              GenerateBullet();
-              m_flyTimer.Restart();
-          }
-
-            RemoveBullet();
+              if (m_flyTimer.ElapsedMilliseconds >= 500)
+              {
+                  GenerateBullet();
+                  m_flyTimer.Restart();
+              }
         
-          IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(Actors);
+              IEnumerable<BaseActor> killedActors = CollisionChecher.GetAllCollisions(Actors);
 
-          foreach (BaseActor killedActor in killedActors)
-          {
-              if (killedActor.IsAlive && killedActor.ActorType != ActorType.Lightning)
-              killedActor.IsAlive = false;
-          }
+              foreach (BaseActor killedActor in killedActors)
+              {
+                  if (killedActor.IsAlive)
+                  killedActor.IsAlive = false;
+              }
 
-          List<BaseActor> toRemove = Actors.Where(actor => actor.CanDrop).ToList();
-          BaseActor[] actors = new BaseActor[toRemove.Count()];
-          toRemove.CopyTo(actors);
+              List<BaseActor> toRemove = Actors.Where(actor => actor.CanDrop).ToList();
+              BaseActor[] actors = new BaseActor[toRemove.Count()];
+              toRemove.CopyTo(actors);
 
-          foreach (BaseActor actor in actors.Where(actor => actor.CanDrop))
-          {
-            Actors.Remove(actor);
-          }
+              foreach (BaseActor actor in actors.Where(actor => actor.CanDrop))
+              {
+                Actors.Remove(actor);
+              }
 
-          if (Player.CanDrop)
-            Failed = true;
+              if (Player.CanDrop)
+                Failed = true;
 
-          //has no enemy
-          if (Actors.All(actor => actor.ActorType != ActorType.Enemy))
-            Success = true;
+              //has no enemy
+              if (Actors.All(actor => actor.ActorType != ActorType.Enemy))
+                Success = true;
         }
 
         #endregion

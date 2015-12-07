@@ -121,8 +121,6 @@ namespace Galaxy.Core.Environment
 
         protected BaseActor Player { get; set; }
 
-        protected BaseActor Lightning { get; set; }
-
         #endregion
     }
 }
