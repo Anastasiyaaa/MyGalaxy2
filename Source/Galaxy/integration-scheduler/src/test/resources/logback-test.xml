@@ -1,0 +1,19 @@
+<!--
+  ~ Copyright 2003-2020 OneVizion, Inc. All rights reserved.
+  -->
+
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date{HH:mm:ss.SSS} [%thread] %-5level %logger{0} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="com.onevizion" level="INFO"/>
+    <logger name="com.onevizion.dao.support.jdbctemplate" level="WARN" />
+    <logger name="com.onevizion.integration.scheduler" level="DEBUG"/>
+</configuration>

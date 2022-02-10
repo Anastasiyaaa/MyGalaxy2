@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 2003-2020 OneVizion, Inc. All rights reserved.
+  -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+           http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans.xsd 
+           http://www.springframework.org/schema/context 
+           http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="setPidPoolConnectionSqlQueryProvider" class="com.onevizion.integration.scheduler.SetPidPoolConnectionSqlQueryProvider"/>
+
+    <bean id="dataSourceConfig" class="com.zaxxer.hikari.HikariConfig">
+        <property name="jdbcUrl" value="${url}"/>
+        <property name="username" value="${username}"/>
+        <property name="password" value="${password}"/>
+        <property name="poolName" value="OnevizionPool_integration-scheduler"/>
+        <property name="minimumIdle" value="1"/>
+        <property name="maximumPoolSize" value="30"/>
+        <property name="idleTimeout" value="600000"/>
+        <property name="onBorrowConnectionSqlQueryProvider" ref="setPidPoolConnectionSqlQueryProvider"/>
+        <property name="dataSourceProperties">
+            <props>
+                <prop key="v$session.program">integration-scheduler</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+        <constructor-arg ref="dataSourceConfig"/>
+    </bean>
+
+    <bean class="com.onevizion.vo.UserSettings"/>
+    <bean class="com.onevizion.vo.UserMessages"/>
+    <bean class="com.onevizion.vo.GlobalSettings"/>
+    <bean class="com.onevizion.facade.DateFacade"/>
+    <bean name="dbSchema" class="java.lang.String">
+        <constructor-arg type="java.lang.String" value="${username}"/>
+    </bean>
+
+    <import resource="classpath:com/onevizion/dao/beans.xml"/>
+
+    <context:component-scan base-package="com.onevizion.integration.scheduler, com.onevizion.facade.integration.scheduler"/>
+
+</beans>
