@@ -1,2 +1,2 @@
 # Files that will always have LF line endings on checkout.
-Source/Galaxy/integration-scheduler/*/*.sh text eol=lf
+integration-scheduler/*/*.sh text eol=lf

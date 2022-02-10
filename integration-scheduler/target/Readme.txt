@@ -1,0 +1,1 @@
+This is working directory of integration-scheduler. It content is managed automatically and any directories created here manually may be deleted!
